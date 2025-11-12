@@ -1,16 +1,22 @@
 using System.Collections;
 using UnityEngine;
 
-public class Splinter : MonoBehaviour
+public class Rock : MonoBehaviour
 {
     public float speed = 5f;
     protected Transform target;
     private bool isMoving = false;
+    private float activeSeconds = 0.5f;
+    private Collider2D col;
+
+    void Start()
+    {
+        col = GetComponent<Collider2D>();
+    }
 
     public void Move(Transform end)
     {
         target = end;
-        FaceTarget();
         isMoving = true;
     }
 
@@ -23,22 +29,23 @@ public class Splinter : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
         // Check if reached
-        if (Vector3.Distance(transform.position, target.position) < 0.01f)
+        if (Vector3.Distance(transform.position, target.position) < 0.05f)
         {
+            col.enabled = true;
+
             isMoving = false;
             Despawn();
         }
     }
 
-    private void FaceTarget()
-    {
-        Vector3 direction = target.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle + 90f, Vector3.forward);
-    }
-
     protected void Despawn()
     {
+        StartCoroutine(Kill());
+    }
+
+    private IEnumerator Kill()
+    {
+        yield return new WaitForSeconds(activeSeconds);
         Destroy(gameObject);
     }
 
