@@ -8,11 +8,11 @@ public class Hand : MonoBehaviour
     private int numOfTries;
     private int minNumOfTries = 7;
     private int maxNumOfTries = 10;
-    
+
 
     private void Awake()
     {
-        numOfTries = Random.Range(7, 10);
+        numOfTries = Random.Range(minNumOfTries, maxNumOfTries);
     }
 
     public void SetPlayer(Transform _playerPos)

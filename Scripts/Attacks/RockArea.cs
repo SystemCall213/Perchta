@@ -17,6 +17,6 @@ public class RockArea : AttackArea
         yield return new WaitForSeconds(2f);
 
         Hand newHand = Instantiate(handPrefab, start.position, Quaternion.identity);
-        newHand.SetPlayer(player);
+        newHand.SetPlayer(player.GetTransform());
     }
 }
